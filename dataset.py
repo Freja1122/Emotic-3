@@ -73,7 +73,9 @@ class Emotic(Dataset):
         dis_label = torch.zeros(26)
         for category in categories:
             dis_label[category2num[category] - 1] = 1
-        return image, body, dis_label
+        for i in range(3):
+            con_label[i] = person['continuous' if self.part == 'train' else 'combined_continuous'][i] / 10
+        return image, body, dis_label, con_label
 
     def __len__(self):
         return len(mapping[self.part].keys())
